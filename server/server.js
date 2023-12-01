@@ -1,3 +1,5 @@
+var helper1 = require('./helpers/helper1');
+var helper2 = require('./helpers/helper2');
 //Websocket Server <<<<<<<<<<<<<<
 var wsPort = 8081;
 var webPort = 8080;
@@ -54,7 +56,7 @@ wss.on('connection', function(ws) {
 	    	broadcastMessage(getClientId(), message);
 	    } else {
 	    	if(parts[1] == "write")
-	    		writeInFile(parts[2], parts[3], function(ret) {
+	    		helper1.writeInFile(parts[2], parts[3], function(ret) {
 	    			if(ret == "error") {
 	    				broadcastMessage(getClientId(), "error###Fehler beim Schreiben einer Datei... siehe Serverlog!");
 	    			} else {
@@ -62,7 +64,7 @@ wss.on('connection', function(ws) {
 	    			}
 	    		});
 	    	else if(parts[1] == "read") {
-	    		readFile(parts[2], function(content) {
+	    		helper2.readFile(parts[2], function(content) {
 	    			if(content == "error") {
 	    				broadcastMessage(getClientId(), "error###Fehler beim Lesen einer Datei... siehe Serverlog!");
 	    			} else {
@@ -103,37 +105,13 @@ console.log("\n---Verbinden von diesem PC---");
 console.log(" Browser öffnen und zu Adresse: http://127.0.0.1:"+webPort+" surfen!");
 
 console.log("\n---Adressen zum verbinden von anderen Geräten---");
-getLocalIp()
+helper1.getLocalIp()
 
 console.log("\n\n------------------------------");
 console.log("\n---SERVER IS UP AND RUNNING---");
 console.log("\n------------------------------");
 
-function writeInFile(filename, content, callback) {
-	console.log("going to read file:"+filename);
-	fs.writeFile(filename, content, function(err) {
-		console.log("file:"+filename+" write callback done!");
-	    if(err) {
-	    	console.log(err);
-	    	callback("error");
-	    } else {
-	    	callback("success");
-	        console.log("The file '"+filename+"' was saved!");
-	    }
-	}); 
-}
 
-function readFile(filename, callback) {
-	console.log("going to read file:"+filename);
-	fs.readFile(filename, 'utf8', function (err,data) {
-		console.log("file:"+filename+" read callback done!");
-		if (err) {
-			console.log(err);
-			callback("error");
-	  	}
-	  	callback(data);
-	});
-}
 
 function getLocalIp() {
     var os = require('os');
