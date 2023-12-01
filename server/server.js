@@ -1,5 +1,6 @@
-var helper1 = require('./helpers/helper1');
-var helper2 = require('./helpers/helper2');
+var helper = require('./helpers/helper');
+
+
 //Websocket Server <<<<<<<<<<<<<<
 var wsPort = 8081;
 var webPort = 8080;
@@ -56,7 +57,7 @@ wss.on('connection', function(ws) {
 	    	broadcastMessage(getClientId(), message);
 	    } else {
 	    	if(parts[1] == "write")
-	    		helper1.writeInFile(parts[2], parts[3], function(ret) {
+	    		helper.writeInFile(parts[2], parts[3], function(ret) {
 	    			if(ret == "error") {
 	    				broadcastMessage(getClientId(), "error###Fehler beim Schreiben einer Datei... siehe Serverlog!");
 	    			} else {
@@ -64,7 +65,7 @@ wss.on('connection', function(ws) {
 	    			}
 	    		});
 	    	else if(parts[1] == "read") {
-	    		helper2.readFile(parts[2], function(content) {
+	    		helper.readFile(parts[2], function(content) {
 	    			if(content == "error") {
 	    				broadcastMessage(getClientId(), "error###Fehler beim Lesen einer Datei... siehe Serverlog!");
 	    			} else {
@@ -105,7 +106,7 @@ console.log("\n---Verbinden von diesem PC---");
 console.log(" Browser öffnen und zu Adresse: http://127.0.0.1:"+webPort+" surfen!");
 
 console.log("\n---Adressen zum verbinden von anderen Geräten---");
-helper1.getLocalIp()
+helper.getLocalIp()
 
 console.log("\n\n------------------------------");
 console.log("\n---SERVER IS UP AND RUNNING---");
