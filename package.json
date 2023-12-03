@@ -1,0 +1,14 @@
+{
+  "name": "backyard-feud",
+  "version": "1.0.0",
+  "description": "![logo](./web/img/logo.png)",
+  "scripts": {
+    "start": "node server/index.cjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.14.2"
+  }
+}
